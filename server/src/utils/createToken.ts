@@ -17,7 +17,7 @@ export const createAndSendToken = (userId: string, res: Response, expiresIn: num
     const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // true in production
-        sameSite: process.env.NODE_ENV === "production" ? "nonoe" : "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: expiresIn * 1000, // convert seconds to milliseconds
     };
 
