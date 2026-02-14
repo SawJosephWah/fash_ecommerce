@@ -1,0 +1,52 @@
+services:
+  mongodb:
+    image: mongo:7.0.2
+    container_name: mongodb_container
+    # This is the missing piece! It tells the actual Mongo software to use 27018.
+    command: ["mongod", "--port", "27018"]
+    ports:
+      - "27018:27018"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  mongo-express:
+    image: mongo-express:latest
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongodb:27018/
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+
+  # --- Backend Server ---
+  server:
+    build: ./server
+    container_name: express_server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    # Pointing to the .env file inside the server folder
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongodb
+
+  # --- Frontend Client ---
+  client:
+    build: ./client
+    container_name: react_client
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    # Pointing to the .env file inside the client folder
+    env_file:
+      - ./client/.env
+    depends_on:
+      - server

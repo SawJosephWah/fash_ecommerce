@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Build output
+dist
+build
+.next
+out
+
+# Environment variables (don't bake secrets into images!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile
+docker-compose.yml
