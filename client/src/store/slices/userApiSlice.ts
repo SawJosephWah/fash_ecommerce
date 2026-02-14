@@ -11,7 +11,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['User']
+      invalidatesTags: ['User','Order', 'Product']
     }),
     register: builder.mutation({
       query: (data) => ({
@@ -25,7 +25,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: '/users/logout',
         method: 'DELETE',
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Order', 'Product'],
     }),
     getMe: builder.query<UserResponse, void>({
       query: () => ({

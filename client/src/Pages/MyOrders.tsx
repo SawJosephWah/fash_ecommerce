@@ -1,5 +1,5 @@
 import { useGetMyOrdersQuery } from "@/store/slices/orderApiSlice";
-import { Loader2, Package, AlertCircle, RefreshCcw, Eye, ShoppingBag } from "lucide-react";
+import { Loader2, AlertCircle, RefreshCcw, Eye, ShoppingBag } from "lucide-react";
 import {
     Dialog,
     DialogContent,

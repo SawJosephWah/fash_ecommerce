@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useGetAllProductsQuery } from "../../store/slices/productApiSlice";
 import { subDays, isAfter } from "date-fns";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { ProductChart } from "./ProductChart";
 import { RecentProducts } from "./RecentProducts";
 import { RecentOrders } from "./RecentOrders";

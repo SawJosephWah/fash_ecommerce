@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { Loader2, ShieldCheck } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,14 +14,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/Components/ui/card"
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/Components/ui/field"
+import { Input } from "@/Components/ui/input"
 import { passwordSchema, type PasswordFormValues } from "@/schemas/userSchema"
 import { useUpdatePasswordMutation } from "@/store/slices/userApiSlice"
 

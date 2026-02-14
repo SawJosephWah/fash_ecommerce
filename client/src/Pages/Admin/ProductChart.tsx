@@ -1,15 +1,15 @@
 "use client"
 
-import React, { useMemo } from "react"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import {
     ChartContainer,
     type ChartConfig,
     ChartTooltip,
     ChartTooltipContent
 } from "@/Components/ui/chart"
-import { format, parseISO, startOfMonth } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { type Product } from "@/Types/Product" // Adjust path to your types
+import { useMemo } from "react"
 
 const chartConfig = {
     count: {

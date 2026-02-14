@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { KeyRound, Loader2, Lock } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import {
   Card,
   CardContent,
@@ -12,14 +12,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/Components/ui/card"
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/Components/ui/field"
+import { Input } from "@/Components/ui/input"
 import { resetPasswordSchema, type ResetPasswordFormValues } from "@/schemas/userSchema"
 import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"

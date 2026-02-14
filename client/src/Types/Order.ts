@@ -20,6 +20,7 @@ export interface CreateOrderRequest {
 export interface Order extends CreateOrderRequest {
   _id: string;
   userId: string;
+  customer: string;
   status: OrderStatus;
   createdAt: string;
   updatedAt: string;
@@ -50,7 +51,7 @@ export interface ConfirmOrderResponse {
   stripeSessionId: string;
 }
 
-export interface ApiResponse<T> {
+export interface ApiResponse{
   status: string;
   data: Order[];
 }

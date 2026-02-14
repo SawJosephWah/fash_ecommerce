@@ -3,7 +3,7 @@
 import { format } from "date-fns"
 import { ArrowRight, Package } from "lucide-react"
 import { Link } from "react-router"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import { type Product } from "@/Types/Product" // Adjust path
 
 interface RecentProductsProps {

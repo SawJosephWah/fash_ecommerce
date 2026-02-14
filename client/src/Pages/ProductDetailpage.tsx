@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { useGetProductByIdQuery } from '../store/slices/productApiSlice'
 import { useDispatch } from 'react-redux' // 1. Import useDispatch

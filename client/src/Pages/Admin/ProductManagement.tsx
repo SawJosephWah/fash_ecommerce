@@ -2,7 +2,7 @@
 import { useGetAllProductsQuery, useDeleteProductMutation } from "@/store/slices/productApiSlice"
 import { getColumns } from "./ProductTableColumn"
 
-import { Package, CheckCircle2, AlertCircle, Plus } from "lucide-react"
+import { Package, CheckCircle2, AlertCircle } from "lucide-react"
 import { toast } from "sonner"
 import { StatCard } from "./StatCard"
 import { DataTable } from "./DataTable"
@@ -11,7 +11,7 @@ import { useMemo, useState } from "react"
 const ProductManagement = () => {
   const { data, isLoading } = useGetAllProductsQuery({})
 
-  const [deleteProduct, { isLoading: isMutationLoading }] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const [currentlyDeleting, setCurrentlyDeleting] = useState<string | null>(null);
 
 const handleDelete = async (id: string) => {

@@ -33,13 +33,13 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     // 3. NEW: Get User Orders
     getMyOrders: builder.query<any[], void>({
       query: () => '/orders',
-      transformResponse: (response: ApiResponse<any[]>) => response.data,
-      providesTags: ['Order'],
+      transformResponse: (response: ApiResponse) => response.data,
+      providesTags: ['Order']
     }),
 
     getAllOrders: builder.query<any[], void>({
       query: () => '/orders/all',
-      transformResponse: (response: ApiResponse<any[]>) => response.data,
+      transformResponse: (response: ApiResponse) => response.data,
       providesTags: ['Order'],
     }),
 

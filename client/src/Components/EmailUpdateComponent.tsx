@@ -1,13 +1,12 @@
 "use client"
 
-import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import {
   Card,
   CardContent,
@@ -15,14 +14,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/Components/ui/card"
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/Components/ui/field"
+import { Input } from "@/Components/ui/input"
 import { emailSchema, type EmailFormValues } from "@/schemas/userSchema"
 import { useUpdateEmailMutation } from "@/store/slices/userApiSlice"
 import { Loader2 } from "lucide-react"

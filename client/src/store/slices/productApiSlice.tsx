@@ -35,7 +35,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: `/products/${id}`,
         method: 'GET',
       }),
-      providesTags: (result, error, id) => [{ type: 'Product', id }],
+      providesTags: (id) => [{ type: 'Product', id }],
     }),
 
     // Endpoint for Filtered Products (Search/Filters)
@@ -74,7 +74,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: 'PUT', // or PUT
         body: formData,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: ({ id }) => [
         { type: 'Product', id },
         'Product'
       ],

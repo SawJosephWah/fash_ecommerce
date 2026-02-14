@@ -1,12 +1,12 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, type SubmitHandler } from "react-hook-form"
 import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/Components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/Components/ui/card"
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/Components/ui/field"
+import { Input } from "@/Components/ui/input"
 import MultiImageUpload from "./MultiImageUpload"
 import CategoryDropdown from "./CategorySelect"
 import ColorPicker from "./ColorPicker"
@@ -64,11 +64,12 @@ const productSchema = z.object({
 
 
 // 2. Extract the type directly from the schema
-type ProductFormValues = z.infer<typeof productSchema>
+// type ProductFormValues = z.infer<typeof productSchema>
+type ProductFormValues = z.input<typeof productSchema>;
 
 interface ProductFormProps {
     initialData?: any;
-    onSubmit: (data: ProductFormValues) => void;
+    onSubmit: SubmitHandler<ProductFormValues>;
     isLoading?: boolean;
 }
 
@@ -177,6 +178,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                                         </FieldLabel>
                                         <Input
                                             {...field}
+                                            value={(field.value as string | number) ?? ""}
                                             className="border-t-0 border-x-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-black transition-all"
                                         />
                                         {fieldState.invalid && (
@@ -196,6 +198,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                                         </FieldLabel>
                                         <Input
                                             {...field}
+                                            value={(field.value as string | number) ?? ""}
                                             className="border-t-0 border-x-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-black transition-all"
                                         />
                                         {fieldState.invalid && (
@@ -319,7 +322,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                                     <FormSwitch
                                         title="Featured Product"
                                         description="Display on the homepage hero section."
-                                        value={field.value}
+                                        value={!!field.value}
                                         onChange={field.onChange}
                                     />
                                 )}

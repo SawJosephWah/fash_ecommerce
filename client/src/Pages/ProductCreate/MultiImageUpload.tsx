@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type ChangeEvent } from "react";
+import  { useEffect, useState, type ChangeEvent } from "react";
 import { X, UploadCloud } from "lucide-react";
 
 interface ImageUploadProps {
