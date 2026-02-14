@@ -71,14 +71,20 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     });
 });
 
-export const logout = catchAsync(async (req: Request, res: Response,) => {
-
-    res.cookie('token', '', {
-        expires: new Date(Date.now()),
-        httpOnly: true
+export const logout = catchAsync(async (req: Request, res: Response) => {
+    // 1. Use clearCookie for a more semantic and reliable approach
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.VITE_MODE !== 'development', // Match the creation settings
+        sameSite: 'none', // Required if frontend and backend are on different domains
+        path: '/', // Ensure it clears for the entire domain
     });
 
-    res.status(200).json({ status: 'success' });
+    // 2. Return a consistent success response
+    res.status(200).json({ 
+        status: 'success',
+        message: 'Logged out successfully' 
+    });
 });
 
 export const updateAvatar = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
