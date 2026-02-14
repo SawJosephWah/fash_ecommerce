@@ -21,65 +21,72 @@ const PORT = process.env.PORT || 5000;
 app.post(
   "/stripe/webhook",
   express.raw({ type: "application/json" }),
-  async (req, res) => { // Added async here for database operations
+  async (req, res) => {
+    // 1. Get the secret from environment variables
+    const endpointSecret = process.env.WEBHOOK_SECRET;
+
     let event = req.body;
 
+    // 2. Handle Signature Verification
     if (endpointSecret) {
       const signature = req.headers["stripe-signature"];
       try {
         if (!signature) throw new Error("Signature not found.");
-        event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+
+        // IMPORTANT: req.body must be the raw buffer (express.raw handles this)
+        event = stripe.webhooks.constructEvent(
+          req.body,
+          signature,
+          endpointSecret
+        );
       } catch (err: any) {
-        console.log(`⚠️ Webhook signature verification failed.`, err.message);
-        return res.sendStatus(400);
+        console.log(`⚠️ Webhook signature verification failed: ${err.message}`);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
       }
     }
 
-    // Handle the event
+    // 3. Handle the Event
     switch (event.type) {
-      case "checkout.session.completed":
+      case "checkout.session.completed": {
         const session = event.data.object;
-        
-        // 1. Get the tempCartId from metadata
         const tempCartId = session.metadata?.tempCartId;
 
         if (tempCartId) {
           try {
-            // 2. Find the TempCart data
             const tempCart = await TempCart.findById(tempCartId);
 
             if (tempCart) {
-              // 3. Create the real Order
+              // Create the real Order
               await Order.create({
                 userId: tempCart.userId,
                 items: tempCart.items,
-                customer : session.metadata?.customer,
-                // You can also get totals from the Stripe session itself
-                bill: session.amount_total / 100, 
+                customer: session.metadata?.customer,
+                bill: session.amount_total / 100, // Convert cents to dollars
                 stripeSessionId: session.id,
-                status: "paid", // Mark as paid immediately
+                status: "paid",
                 paymentIntentId: session.payment_intent,
               });
 
-              // 4. Delete the TempCart (Cleanup)
+              // Cleanup
               await TempCart.findByIdAndDelete(tempCartId);
-              console.log(`✅ Order created and TempCart ${tempCartId} deleted.`);
+              console.log(`✅ Order successfully finalized for TempCart: ${tempCartId}`);
             } else {
               console.log("❌ TempCart not found in database.");
             }
           } catch (error) {
-            console.error("Error processing order in webhook:", error);
-            // We return 500 so Stripe retries later if it's a DB connection issue
-            return res.sendStatus(500); 
+            console.error("Critical: Error processing order in webhook:", error);
+            return res.sendStatus(500);
           }
         }
         break;
+      }
 
       default:
-        console.log(`Unhandled event type ${event.type}.`);
+        console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
 
-    res.sendStatus(200);
+    // Return a 200 to Stripe to acknowledge receipt
+    res.json({ received: true });
   }
 );
 
@@ -93,10 +100,6 @@ app.use(cors({
   credentials: true
 }));
 app.use('/uploads', express.static('uploads'));
-
-// Use the secret from your Stripe Dashboard (Webhook settings)
-const endpointSecret = "whsec_e5a8a124cf5745436994b3fe3289519cbad4496645626936e52722268a91fab3"; 
-
 
 app.listen(3000, () => console.log('Running on port 3000'));
 
