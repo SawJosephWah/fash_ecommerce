@@ -84,7 +84,7 @@ export function UpdateEmailForm({ currentEmail }: UpdateEmailFormProps) {
         </form>
       </CardContent>
       <CardFooter>
-        <Field orientation="horizontal" className="justify-end gap-2">
+        <Field className="justify-end gap-2">
           <Button
             type="submit"
             form="update-email-form"
