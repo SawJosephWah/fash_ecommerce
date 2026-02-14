@@ -15,6 +15,7 @@ import { logout } from "../../store/slices/authSlice";
 import { toast } from "sonner";
 import { useLogoutMutation, useGetMeQuery } from "../../store/slices/userApiSlice"; 
 import type { RootState } from "../../store";
+import { apiSlice } from "@/store/slices/apiSlice";
 
 interface TopBarProps {
   onOpenCart: () => void;
@@ -43,6 +44,7 @@ const TopBar: React.FC<TopBarProps> = ({ onOpenCart }) => {
   const handleLogout = async () => {
     try {
       await logoutApiCall().unwrap();
+      dispatch(apiSlice.util.resetApiState());
       dispatch(logout());
       toast.success("Logged out successfully");
       navigate('/login');

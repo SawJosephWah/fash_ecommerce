@@ -1,29 +1,30 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router"; 
+import { Link, useNavigate } from "react-router";
 import { loginSchema, type LoginFormData } from "../schemas/LoginSchema";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMeQuery, useLoginMutation } from "../store/slices/userApiSlice";
 import { setUserInfo } from "../store/slices/authSlice";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import type { RootState } from "@/store";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
+  const { isLoading: meLoading, isSuccess: isAuthenticated } = useGetMeQuery();
 
-  const { data: meData, isLoading: meLoading, isSuccess: isAuthenticated } = useGetMeQuery();
-
-  // 3. Redirect if already authenticated by the API
   useEffect(() => {
-    if (isAuthenticated) {
+    // Only redirect if both the API is success AND we have userInfo in Redux
+    if (isAuthenticated && userInfo) {
       navigate('/', { replace: true });
     }
-  }, [isAuthenticated, navigate, dispatch, meData]);
+  }, [isAuthenticated, userInfo, navigate]);
 
   const {
     register,
@@ -75,9 +76,8 @@ const Login: React.FC = () => {
               type="email"
               autoComplete="email"
               placeholder="name@example.com"
-              className={`w-full border-b py-2.5 outline-none transition-all placeholder:text-zinc-200 ${
-                errors.email ? "border-red-500" : "border-zinc-200 focus:border-black"
-              }`}
+              className={`w-full border-b py-2.5 outline-none transition-all placeholder:text-zinc-200 ${errors.email ? "border-red-500" : "border-zinc-200 focus:border-black"
+                }`}
             />
             {errors.email && (
               <p className="text-red-500 text-[10px] mt-1.5 font-medium italic">
@@ -104,9 +104,8 @@ const Login: React.FC = () => {
               type="password"
               autoComplete="current-password"
               placeholder="••••••••"
-              className={`w-full border-b py-2.5 outline-none transition-all placeholder:text-zinc-200 ${
-                errors.password ? "border-red-500" : "border-zinc-200 focus:border-black"
-              }`}
+              className={`w-full border-b py-2.5 outline-none transition-all placeholder:text-zinc-200 ${errors.password ? "border-red-500" : "border-zinc-200 focus:border-black"
+                }`}
             />
             {errors.password && (
               <p className="text-red-500 text-[10px] mt-1.5 font-medium italic">
