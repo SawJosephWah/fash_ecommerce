@@ -15,6 +15,7 @@ import {
 import { useCreateOrderMutation } from "@/store/slices/orderApiSlice";
 import { CartItem } from "./CartItem";
 import type { CreateOrderRequest } from "@/Types/Order";
+import { toast } from "sonner";
 
 interface ShoppingCartProps {
   isOpen: boolean;
@@ -56,9 +57,15 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
       if (response.data) {
         window.location.href = response.data;
       }
-    } catch (err) {
-      // 4. Handle errors (e.g., show a toast notification)
-      console.error("Failed to create checkout session:", err);
+    } catch (err:any) {
+
+      const errorMessage = err?.data?.message || "Failed to create checkout session";
+
+      toast.error(errorMessage, {
+        description: "Please log in to proceed with your purchase.",
+      });
+
+      console.error("Checkout Error:", err);
     }
   };
 

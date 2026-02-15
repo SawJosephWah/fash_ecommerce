@@ -13,7 +13,7 @@ import SearchBar from "./SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/authSlice";
 import { toast } from "sonner";
-import { useLogoutMutation, useGetMeQuery } from "../../store/slices/userApiSlice"; 
+import { useLogoutMutation, useGetMeQuery } from "../../store/slices/userApiSlice";
 import type { RootState } from "../../store";
 import { apiSlice } from "@/store/slices/apiSlice";
 
@@ -24,17 +24,15 @@ interface TopBarProps {
 const TopBar: React.FC<TopBarProps> = ({ onOpenCart }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // 1. Get Auth state
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { cartItems } = useSelector((state: RootState) => state.cart);
-  
+
   // 2. Conditional Fetching: Only fetch "me" if we have userInfo (token)
   // This prevents 401 errors for guest users.
-  const { data: meData } = useGetMeQuery(undefined, {
-    skip: !userInfo,
-  });
-  
+  const { data: meData } = useGetMeQuery(undefined);
+
   // 3. Derived State: Calculate admin status on the fly
   const isAdmin = meData?.data?.user?.role === "admin";
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
